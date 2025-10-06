@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favorites - Book Explorer</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
+
+  <!-- Navbar -->
+  <header class="bg-blue-600 text-white">
+    <div class="container mx-auto flex justify-between items-center p-4">
+      <h1 class="text-2xl font-bold">📚 Book Explorer</h1>
+      <nav>
+        <ul class="flex space-x-4">
+          <li><a href="index.html" class="hover:underline">Home</a></li>
+          <li><a href="favorites.html" class="hover:underline">Favorites</a></li>
+          <li><a href="about.html" class="hover:underline">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto flex-grow p-6">
+    <h2 class="text-3xl font-bold mb-4 text-center">My Favorites</h2>
+    <div id="clear-all-section" class="text-center mb-6 hidden">
+      <button id="clear-all-btn" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">
+        Clear All Favorites
+      </button>
+    </div>
+    <div id="favorites-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 hidden">
+      <!-- Favorites will be rendered here via JS -->
+    </div>
+    <div id="no-favorites" class="text-center text-gray-500 mt-8">
+      <p>No favorites added yet. <a href="index.html" class="text-blue-600 hover:underline">Browse books</a> to get started!</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-blue-600 text-white text-center p-4">
+    <p>© 2025 Book Explorer. Front_end Developer.</p>
+  </footer>
+
+  <script type="module" src="favorites.js"></script>
+</body>
+</html>
