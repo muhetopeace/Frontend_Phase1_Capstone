@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Explorer - Lab 3</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080') no-repeat center center fixed;
+      background-size: cover;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-900">
+
+  <!-- Navbar -->
+  <header class="bg-blue-600 text-white">
+    <div class="container mx-auto flex justify-between items-center p-4">
+      <h1 class="text-2xl font-bold"> Book Explorer</h1>
+      <nav>
+        <ul class="flex space-x-4">
+          <li><a href="index.html" class="hover:underline">Home</a></li>
+          <li><a href="favorites.html" class="hover:underline">Favorites</a></li>
+          <li><a href="about.html" class="hover:underline">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="bg-white/90 py-16 shadow">
+    <div class="container mx-auto text-center px-4">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4">Discover Your Next Favorite Book</h2>
+      <p class="max-w-2xl mx-auto text-gray-600">Search, browse, and save books you love!</p>
+      <div class="mt-6 flex justify-center">
+        <input type="text" id="search-input" placeholder="Search books..." class="w-1/2 p-2 border rounded-l">
+        <button id="search-btn" class="bg-blue-600 text-white px-4 rounded-r hover:bg-blue-700">Search</button>
+      </div>
+    </div>
+  </section>
+
+  <p id="feedback" class="text-center text-gray-700 mt-4"></p>
+
+  <main class="container mx-auto flex-grow p-6">
+    <div id="books-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-blue-600 text-white text-center p-4">
+    <p>© 2025 Book Explorer. Front_end Developer.</p>
+  </footer>
+
+  <!-- Script -->
+  <script type="module">
+    // ---------------- Favorites ----------------
+    let favorites = JSON.parse(localStorage.getItem("bookFavorites") || "[]");
+
+    function saveFavorites() { localStorage.setItem("bookFavorites", JSON.stringify(favorites)); }
+    function addFavorite(book) {
+      if (!favorites.find(f => f.id === book.id)) {
+        favorites.push(book);
+        saveFavorites();
+        alert(`Added "${book.title}" to favorites!`);
+      }
+    }
+
+    // ---------------- Fetch API ----------------
+    async function fetchBooks(query = "programming") {
+      try {
+        const res = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=12`);
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        return data.docs.map((doc, index) => ({
+          id: index + 1,
+          title: doc.title || "Unknown Title",
+          author: doc.author_name ? doc.author_name[0] : "Unknown Author",
+          cover: doc.cover_i 
+            ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg` 
+            : "https://via.placeholder.com/150x200?text=No+Cover"
+        }));
+      } catch (err) {
+        console.error(err);
+        return [];
+      }
+    }
+
+    // ---------------- DOM Rendering ----------------
+    const booksGrid = document.getElementById("books-grid");
+    const feedback = document.getElementById("feedback");
+    const searchInput = document.getElementById("search-input");
+    const searchBtn = document.getElementById("search-btn");
+
+    function renderBooks(books) {
+      if (!books.length) {
+        feedback.textContent = "No results found.";
+        booksGrid.innerHTML = "";
+        return;
+      }
+      feedback.textContent = "";
+      booksGrid.innerHTML = books.map(book => `
+        <div class="bg-white/90 p-4 rounded-lg shadow hover:shadow-lg" data-id="${book.id}">
+          <img src="${book.cover}" alt="${book.title}" class="w-full h-40 object-cover mb-4 rounded">
+          <h4 class="font-bold text-lg">${book.title}</h4>
+          <p class="text-sm text-gray-600 mb-2">by ${book.author}</p>
+          <button class="add-favorite bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full">Add to Favorites</button>
+        </div>
+      `).join("");
+
+      booksGrid.querySelectorAll(".add-favorite").forEach(btn => {
+        btn.addEventListener("click", e => {
+          const card = e.target.closest("[data-id]");
+          const book = books.find(b => b.id === parseInt(card.dataset.id));
+          addFavorite(book);
+        });
+      });
+    }
+
+    async function loadBooks(query = "programming") {
+      feedback.textContent = "Loading books...";
+      const books = await fetchBooks(query);
+      renderBooks(books);
+    }
+
+    searchBtn.addEventListener("click", () => {
+      const q = searchInput.value.trim();
+      loadBooks(q || "programming");
+    });
+
+    loadBooks();
+  </script>
+
+</body>
+</html>
+

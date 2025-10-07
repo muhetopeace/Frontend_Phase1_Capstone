@@ -4,15 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Favorites - Book Explorer</title>
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+    }
+    .container-bg {
+      background: rgba(255,255,255,0.9);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen">
 
   <!-- Navbar -->
-  <header class="bg-blue-600 text-white">
+  <header class="bg-blue-600 text-white shadow-lg">
     <div class="container mx-auto flex justify-between items-center p-4">
-      <h1 class="text-2xl font-bold">📚 Book Explorer</h1>
+      <h1 class="text-2xl font-bold"> Book Explorer</h1>
       <nav>
         <ul class="flex space-x-4">
           <li><a href="index.html" class="hover:underline">Home</a></li>
@@ -23,27 +33,82 @@
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="container mx-auto flex-grow p-6">
+  <!-- Favorites Section -->
+  <main class="container container-bg mx-auto flex-grow p-6 mt-6">
     <h2 class="text-3xl font-bold mb-4 text-center">My Favorites</h2>
     <div id="clear-all-section" class="text-center mb-6 hidden">
       <button id="clear-all-btn" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">
         Clear All Favorites
       </button>
     </div>
-    <div id="favorites-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 hidden">
-      <!-- Favorites will be rendered here via JS -->
-    </div>
+    <div id="favorites-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 hidden"></div>
     <div id="no-favorites" class="text-center text-gray-500 mt-8">
       <p>No favorites added yet. <a href="index.html" class="text-blue-600 hover:underline">Browse books</a> to get started!</p>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-blue-600 text-white text-center p-4">
-    <p>© 2025 Book Explorer. Front_end Developer.</p>
+  <footer class="bg-blue-600 text-white text-center p-4 fixed bottom-0 w-full shadow-lg">
+    <p>© 2025 Book Explorer | Frontend Developer</p>
   </footer>
 
-  <script type="module" src="favorites.js"></script>
+  <script type="module">
+    let favorites = JSON.parse(localStorage.getItem('bookFavorites')) || [];
+
+    const container = document.getElementById('favorites-list');
+    const noFavoritesMsg = document.getElementById('no-favorites');
+    const clearSection = document.getElementById('clear-all-section');
+
+    function renderFavorites() {
+      if (favorites.length === 0) {
+        container.innerHTML = '';
+        container.classList.add('hidden');
+        noFavoritesMsg.classList.remove('hidden');
+        clearSection.classList.add('hidden');
+        return;
+      }
+      container.classList.remove('hidden');
+      noFavoritesMsg.classList.add('hidden');
+      clearSection.classList.remove('hidden');
+
+      container.innerHTML = favorites.map(book => `
+        <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg" data-id="${book.id}">
+          <img src="${book.cover}" alt="${book.title}" class="w-full h-40 object-cover mb-4 rounded">
+          <h4 class="font-bold text-lg mb-2">${book.title}</h4>
+          <p class="text-sm text-gray-600 mb-4">by ${book.author}</p>
+          <button class="remove-btn bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full">Remove</button>
+        </div>
+      `).join('');
+    }
+
+    function saveFavorites() {
+      localStorage.setItem('bookFavorites', JSON.stringify(favorites));
+    }
+
+    function removeFavorite(id) {
+      favorites = favorites.filter(f => f.id !== id);
+      saveFavorites();
+      renderFavorites();
+    }
+
+    renderFavorites();
+
+    // Event delegation
+    container.addEventListener('click', e => {
+      if (e.target.classList.contains('remove-btn')) {
+        const id = parseInt(e.target.closest('[data-id]').dataset.id);
+        removeFavorite(id);
+      }
+    });
+
+    document.getElementById('clear-all-btn').addEventListener('click', () => {
+      if (confirm("Are you sure you want to clear all favorites?")) {
+        favorites = [];
+        saveFavorites();
+        renderFavorites();
+      }
+    });
+  </script>
 </body>
 </html>
+

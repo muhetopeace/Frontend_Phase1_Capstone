@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - Book Explorer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+    }
+    .container-bg {
+      background: rgba(255,255,255,0.9);
+      border-radius: 10px;
+      padding: 2rem;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- Navbar -->
+  <header class="bg-blue-600 text-white shadow-lg">
+    <div class="container mx-auto flex justify-between items-center p-4">
+      <h1 class="text-2xl font-bold"> Book Explorer</h1>
+      <nav>
+        <ul class="flex space-x-4">
+          <li><a href="index.html" class="hover:underline">Home</a></li>
+          <li><a href="favorites.html" class="hover:underline">Favorites</a></li>
+          <li><a href="about.html" class="hover:underline">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- About Content -->
+  <main class="container container-bg mx-auto flex-grow mt-6">
+    <h2 class="text-3xl font-bold mb-4 text-center text-indigo-700">About Book Explorer</h2>
+
+    <p class="text-gray-700 mb-4">
+      Book Explorer is a responsive web app that helps users discover, search, and save their favorite books. It uses the Open Library API and allows you to manage your favorite books dynamically.
+    </p>
+
+    <h3 class="text-2xl font-semibold mt-4 mb-2">Mission</h3>
+    <p class="text-gray-700 mb-4">
+      Our mission is to make book discovery easy, enjoyable, and personalized. We want to encourage reading by providing an interactive and organized way to explore books.
+    </p>
+
+    <h3 class="text-2xl font-semibold mt-4 mb-2">How to Use</h3>
+    <p class="text-gray-700 mb-4">
+      - Browse the popular books on the home page.<br>
+      - Click <span class="font-semibold">"Add to Favorites"</span> to save a book.<br>
+      - Go to the <span class="font-semibold">Favorites</span> page to view, remove, or clear your favorite books.<br>
+      - Use the search bar (future enhancement) to find specific books easily.
+    </p>
+
+    <h3 class="text-2xl font-semibold mt-4 mb-2">Technologies Used</h3>
+    <p class="text-gray-700 mb-4">
+      HTML, CSS (Tailwind), JavaScript, localStorage for persistence.
+    </p>
+
+    <h3 class="text-2xl font-semibold mt-4 mb-2">Future Plans</h3>
+    <p class="text-gray-700 mb-4">
+      We plan to include book categories, personalized recommendations, and user reviews to enhance the reading experience.
+    </p>
+  </main>
+
+  <footer class="bg-blue-600 text-white text-center p-4 fixed bottom-0 w-full shadow-lg">
+    <p>© 2025 Book Explorer | Frontend Developer</p>
+  </footer>
+
+</body>
+</html>
+
+
+

@@ -6,6 +6,13 @@
   <title>Book Explorer - Lab 1</title>
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      /* Background image with cover and fixed */
+      background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5NzMxN3wwfDF8c2VhcmNofDJ8fHJlYWRpbmclMjBib29rc3xlbnwwfHx8fDE2OTY5NTI3NDV8&ixlib=rb-4.0.3&q=80&w=1080') no-repeat center center fixed;
+      background-size: cover;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
 
@@ -24,7 +31,7 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="bg-white py-16 shadow">
+  <section class="bg-white/90 py-16 shadow">
     <div class="container mx-auto text-center px-4">
       <h2 class="text-3xl sm:text-4xl font-bold mb-4">Discover Your Next Favorite Book</h2>
       <p class="max-w-2xl mx-auto text-gray-600">
@@ -46,7 +53,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
       <!-- Card 1 -->
-      <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg">
+      <div class="bg-white/90 p-4 rounded-lg shadow hover:shadow-lg">
         <img src="https://covers.openlibrary.org/b/id/9877261-L.jpg" 
              alt="To Kill a Mockingbird cover" 
              class="w-full h-40 object-cover mb-4 rounded">
@@ -55,7 +62,7 @@
       </div>
 
       <!-- Card 2 -->
-      <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg">
+      <div class="bg-white/90 p-4 rounded-lg shadow hover:shadow-lg">
         <img src="https://covers.openlibrary.org/b/id/8231856-L.jpg" 
              alt="Pride and Prejudice cover" 
              class="w-full h-40 object-cover mb-4 rounded">
@@ -64,7 +71,7 @@
       </div>
 
       <!-- Card 3 -->
-      <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg">
+      <div class="bg-white/90 p-4 rounded-lg shadow hover:shadow-lg">
         <img src="https://covers.openlibrary.org/b/id/12618166-L.jpg" 
              alt="Atomic Habits cover" 
              class="w-full h-40 object-cover mb-4 rounded">
@@ -73,7 +80,7 @@
       </div>
 
       <!-- Card 4 -->
-      <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg">
+      <div class="bg-white/90 p-4 rounded-lg shadow hover:shadow-lg">
         <img src="https://covers.openlibrary.org/b/id/12386754-L.jpg" 
              alt="Rich Dad Poor Dad cover" 
              class="w-full h-40 object-cover mb-4 rounded">
@@ -86,9 +93,10 @@
 
   <!-- Footer -->
   <footer class="bg-blue-600 text-white text-center p-4">
-    <p>© 2025 Book Explorer. Front_end Developer.</p>
+    <p>© 2025 Book Explorer|Frontend Developer.</p>
   </footer>
 
 </body>
 </html>
+
 
