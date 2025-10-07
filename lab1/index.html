@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Explorer - Lab 1</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      /* Background image with cover and fixed */
+      background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5NzMxN3wwfDF8c2VhcmNofDJ8fHJlYWRpbmclMjBib29rc3xlbnwwfHx8fDE2OTY5NTI3NDV8&ixlib=rb-4.0.3&q=80&w=1080') no-repeat center center fixed;
+      background-size: cover;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
+
+  <!-- Navbar -->
+  <header class="bg-blue-600 text-white">
+    <div class="container mx-auto flex justify-between items-center p-4">
+      <h1 class="text-2xl font-bold">📚 Book Explorer</h1>
+      <nav>
+        <ul class="flex space-x-4">
+          <li><a href="#" class="hover:underline">Home</a></li>
+          <li><a href="#" class="hover:underline">Favorites</a></li>
+          <li><a href="#" class="hover:underline">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="bg-white/90 py-16 shadow">
+    <div class="container mx-auto text-center px-4">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4">Discover Your Next Favorite Book</h2>
+      <p class="max-w-2xl mx-auto text-gray-600">
+        Welcome to Book Explorer! Search, browse, and save books you love.
+      </p>
+      <div class="mt-6 flex justify-center">
+        <input type="text" placeholder="Search books..."
+               class="w-1/2 p-2 border rounded-l">
+        <button class="bg-blue-600 text-white px-4 rounded-r hover:bg-blue-700">
+          Search
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Responsive Grid (Book Cards with Real Covers) -->
+  <main class="container mx-auto flex-grow p-6">
+    <h3 class="text-xl font-bold mb-4">Popular Books</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+      <!-- Card 1 -->
+      <div class="bg-white/90 p-4 rounded-lg shadow hover:shadow-lg">
+        <img src="https://covers.openlibrary.org/b/id/9877261-L.jpg" 
+             alt="To Kill a Mockingbird cover" 
+             class="w-full h-40 object-cover mb-4 rounded">
+        <h4 class="font-bold text-lg">To Kill a Mockingbird</h4>
+        <p class="text-sm text-gray-600">Harper Lee</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white/90 p-4 rounded-lg shadow hover:shadow-lg">
+        <img src="https://covers.openlibrary.org/b/id/8231856-L.jpg" 
+             alt="Pride and Prejudice cover" 
+             class="w-full h-40 object-cover mb-4 rounded">
+        <h4 class="font-bold text-lg">Pride and Prejudice</h4>
+        <p class="text-sm text-gray-600">Jane Austen</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white/90 p-4 rounded-lg shadow hover:shadow-lg">
+        <img src="https://covers.openlibrary.org/b/id/12618166-L.jpg" 
+             alt="Atomic Habits cover" 
+             class="w-full h-40 object-cover mb-4 rounded">
+        <h4 class="font-bold text-lg">Atomic Habits</h4>
+        <p class="text-sm text-gray-600">James Clear</p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="bg-white/90 p-4 rounded-lg shadow hover:shadow-lg">
+        <img src="https://covers.openlibrary.org/b/id/12386754-L.jpg" 
+             alt="Rich Dad Poor Dad cover" 
+             class="w-full h-40 object-cover mb-4 rounded">
+        <h4 class="font-bold text-lg">Rich Dad Poor Dad</h4>
+        <p class="text-sm text-gray-600">Robert Kiyosaki</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-blue-600 text-white text-center p-4">
+    <p>© 2025 Book Explorer|Frontend Developer.</p>
+  </footer>
+
+</body>
+</html>
+
+

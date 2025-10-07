@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favorites - Book Explorer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080') no-repeat center center fixed;
+      background-size: cover;
+      background-color: #f0f0f0; /* Fallback color */
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-900">
+  <header class="bg-indigo-600 text-white">
+    <div class="container mx-auto flex justify-between items-center p-4">
+      <h1 class="text-2xl font-bold"> Book Explorer</h1>
+      <nav>
+        <ul class="flex space-x-4">
+          <li><a href="index.html" class="hover:underline">Home</a></li>
+          <li><a href="favorites.html" class="hover:underline">Favorites</a></li>
+          <li><a href="about.html" class="hover:underline">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto flex-grow p-6">
+    <h2 class="text-3xl font-bold mb-4 text-center text-indigo-700">My Favorites</h2>
+    <div class="bg-white/90 rounded-lg shadow-lg p-6">
+      <div id="clear-all-section" class="text-center mb-6 hidden">
+        <button id="clear-all-btn" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">
+          Clear All Favorites
+        </button>
+      </div>
+      <div id="favorites-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 hidden">
+        <!-- Favorites will be rendered here via JS -->
+      </div>
+      <div id="no-favorites" class="text-center text-gray-500 mt-8">
+        <p>No favorites added yet. <a href="index.html" class="text-indigo-600 hover:underline">Browse books</a> to get started!</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-indigo-600 text-white p-4 text-center shadow-md">
+    <p>© 2025 Book Explorer | Frontend Developer</p>
+    <div class="mt-2">
+      <p>Contact me for more info:</p>
+      <a href="mailto:muhetobpeace@gmail.com" class="hover:underline">Email</a> |
+      <a href="https://github.com/muhetobpeace" target="_blank" rel="noopener noreferrer" class="hover:underline">GitHub</a> |
+      <a href="https://instagram.com/__pe.ace02" target="_blank" rel="noopener noreferrer" class="hover:underline">Instagram</a>
+    </div>
+  </footer>
+
+  <script>
+    let favorites = [];
+
+    function loadFromLocalStorage() {
+      try {
+        const saved = localStorage.getItem('bookFavorites');
+        if (saved) {
+          favorites = JSON.parse(saved);
+        }
+      } catch (e) {
+        console.error('Error parsing favorites from localStorage:', e);
+        favorites = [];
+      }
+    }
+
+    function saveToLocalStorage() {
+      try {
+        localStorage.setItem('bookFavorites', JSON.stringify(favorites));
+      } catch (e) {
+        console.error('Error saving favorites to localStorage:', e);
+      }
+    }
+
+    function removeFavorite(bookId) {
+      favorites = favorites.filter(fav => fav.id !== bookId);
+      saveToLocalStorage();
+      renderFavorites();
+    }
+
+    function clearAllFavorites() {
+      if (confirm('Are you sure you want to clear all favorites?')) {
+        favorites = [];
+        saveToLocalStorage();
+        renderFavorites();
+      }
+    }
+
+    function renderFavorites() {
+      const container = document.getElementById('favorites-list');
+      const noFavoritesMsg = document.getElementById('no-favorites');
+      const clearSection = document.getElementById('clear-all-section');
+
+      if (!favorites || favorites.length === 0) {
+        container.innerHTML = '';
+        container.classList.add('hidden');
+        noFavoritesMsg.classList.remove('hidden');
+        clearSection.classList.add('hidden');
+        return;
+      }
+
+      container.classList.remove('hidden');
+      noFavoritesMsg.classList.add('hidden');
+      clearSection.classList.remove('hidden');
+
+      container.innerHTML = favorites.map(book => `
+        <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg" data-book-id="${book.id}">
+          <img src="${book.cover || 'https://via.placeholder.com/150'}" alt="${book.title} cover" class="w-full h-40 object-cover mb-4 rounded">
+          <h4 class="font-bold text-lg mb-2 text-indigo-700">${book.title || 'Unknown Title'}</h4>
+          <p class="text-sm text-gray-600 mb-4">by ${book.author || 'Unknown Author'}</p>
+          <button class="remove-btn bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full">
+            Remove from Favorites
+          </button>
+        </div>
+      `).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFromLocalStorage();
+      renderFavorites();
+
+      const container = document.getElementById('favorites-list');
+      container.addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-btn')) {
+          const card = e.target.closest('[data-book-id]');
+          const bookId = card.dataset.bookId;
+          removeFavorite(bookId);
+        }
+      });
+
+      document.getElementById('clear-all-btn').addEventListener('click', clearAllFavorites);
+    });
+  </script>
+</body>
+</html>

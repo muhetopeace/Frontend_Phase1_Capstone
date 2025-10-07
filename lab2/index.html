@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Explorer - Lab 2</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+    }
+    .container-bg {
+      background: rgba(255,255,255,0.9);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- Navbar -->
+  <header class="bg-blue-600 text-white shadow-lg">
+    <div class="container mx-auto flex justify-between items-center p-4">
+      <h1 class="text-2xl font-bold"> Book Explorer</h1>
+      <nav>
+        <ul class="flex space-x-4">
+          <li><a href="index.html" class="hover:underline">Home</a></li>
+          <li><a href="favorites.html" class="hover:underline">Favorites</a></li>
+          <li><a href="about.html" class="hover:underline">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="container container-bg mx-auto py-16 shadow text-center">
+    <h2 class="text-3xl sm:text-4xl font-bold mb-4">Discover Your Next Favorite Book</h2>
+    <p class="max-w-2xl mx-auto text-gray-600">
+      Welcome to Book Explorer! Search, browse, and save books you love.
+    </p>
+  </section>
+
+  <!-- Book Grid -->
+  <main class="container container-bg mx-auto flex-grow p-6 mt-6">
+    <h3 class="text-xl font-bold mb-4">Popular Books</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+      <!-- Book Cards -->
+      <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg">
+        <img src="https://covers.openlibrary.org/b/id/9877261-L.jpg" 
+             alt="To Kill a Mockingbird" 
+             class="w-full h-40 object-cover mb-4 rounded">
+        <h4 class="font-bold text-lg">To Kill a Mockingbird</h4>
+        <p class="text-sm text-gray-600">Harper Lee</p>
+        <button class="add-favorite bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-2 w-full"
+                data-id="1" data-title="To Kill a Mockingbird" data-author="Harper Lee" data-cover="https://covers.openlibrary.org/b/id/9877261-L.jpg">
+          Add to Favorites
+        </button>
+      </div>
+
+      <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg">
+        <img src="https://covers.openlibrary.org/b/id/8231856-L.jpg" 
+             alt="Pride and Prejudice" 
+             class="w-full h-40 object-cover mb-4 rounded">
+        <h4 class="font-bold text-lg">Pride and Prejudice</h4>
+        <p class="text-sm text-gray-600">Jane Austen</p>
+        <button class="add-favorite bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-2 w-full"
+                data-id="2" data-title="Pride and Prejudice" data-author="Jane Austen" data-cover="https://covers.openlibrary.org/b/id/8231856-L.jpg">
+          Add to Favorites
+        </button>
+      </div>
+
+      <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg">
+        <img src="https://covers.openlibrary.org/b/id/12618166-L.jpg" 
+             alt="Atomic Habits" 
+             class="w-full h-40 object-cover mb-4 rounded">
+        <h4 class="font-bold text-lg">Atomic Habits</h4>
+        <p class="text-sm text-gray-600">James Clear</p>
+        <button class="add-favorite bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-2 w-full"
+                data-id="3" data-title="Atomic Habits" data-author="James Clear" data-cover="https://covers.openlibrary.org/b/id/12618166-L.jpg">
+          Add to Favorites
+        </button>
+      </div>
+
+      <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg">
+        <img src="https://covers.openlibrary.org/b/id/12386754-L.jpg" 
+             alt="Rich Dad Poor Dad" 
+             class="w-full h-40 object-cover mb-4 rounded">
+        <h4 class="font-bold text-lg">Rich Dad Poor Dad</h4>
+        <p class="text-sm text-gray-600">Robert Kiyosaki</p>
+        <button class="add-favorite bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-2 w-full"
+                data-id="4" data-title="Rich Dad Poor Dad" data-author="Robert Kiyosaki" data-cover="https://covers.openlibrary.org/b/id/12386754-L.jpg">
+          Add to Favorites
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-blue-600 text-white text-center p-4 fixed bottom-0 w-full shadow-lg">
+    <p>© 2025 Book Explorer | Frontend Developer</p>
+  </footer>
+
+  <!-- JS Module -->
+  <script type="module">
+    let favorites = JSON.parse(localStorage.getItem('bookFavorites')) || [];
+
+    function saveFavorites() {
+      localStorage.setItem('bookFavorites', JSON.stringify(favorites));
+    }
+
+    function addFavorite(book) {
+      if (!favorites.find(f => f.id === book.id)) {
+        favorites.push(book);
+        saveFavorites();
+        alert(`${book.title} added to favorites!`);
+      } else {
+        alert(`${book.title} is already in favorites.`);
+      }
+    }
+
+    document.querySelectorAll('.add-favorite').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const book = {
+          id: parseInt(btn.dataset.id),
+          title: btn.dataset.title,
+          author: btn.dataset.author,
+          cover: btn.dataset.cover
+        };
+        addFavorite(book);
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+
